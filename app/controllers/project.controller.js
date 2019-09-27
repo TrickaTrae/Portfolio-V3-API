@@ -59,4 +59,23 @@ exports.update = (req, res) => {
 // delete a project with the specified Id in the request
 exports.delete = (req, res) => {
 
+    Project.findByIdAndRemove(req.params.projectId)
+    .then(project => {
+        if(!project) {
+            return res.status(404).send({
+                message: "Note not found with id " + req.params.projectId
+            });
+        }
+        res.send({message: "Note deleted successfully!"});
+    }).catch(err => {
+        if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+            return res.status(404).send({
+                message: "Note not found with id " + req.params.projectId
+            });                
+        }
+        return res.status(500).send({
+            message: "Could not delete note with id " + req.params.projectId
+        });
+    });
+
 };
