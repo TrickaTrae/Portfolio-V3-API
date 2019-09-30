@@ -3,8 +3,6 @@ const Project = require('../models/project.model.js');
 // create and save a new project
 exports.create = (req, res) => {
     const request = JSON.parse(req.body.formInput)
-    console.log("req.body: ", request);
-    console.log("req.file: ", req.file);
 
     if(!request.title || !request.description || !req.file) {
         return res.status(400).send({
@@ -48,11 +46,53 @@ exports.findAll = (req, res) => {
 
 // find a single project with a id
 exports.findOne = (req, res) => {
-
 };
 
 // update a project identified by the Id in the request
 exports.update = (req, res) => {
+    let request;
+    let image;
+
+    if(req.file === undefined){ // re-using old image
+        request = req.body;
+        image = req.body.image;
+    } else { // a new image has been uploaded
+        request = JSON.parse(req.body.formInput);
+        image = req.file.path;
+    }
+
+    if(!request.title || !request.description) {
+        return res.status(400).send({
+            message: "Project title and description can not be empty"
+        });
+    }
+
+    Project.findByIdAndUpdate(req.params.projectId, {
+        title: request.title,
+        description: request.description,
+        tech: request.tech,
+        site_link: request.site_link,
+        code_link: request.code_link,
+        image: image,
+        filters: request.filters
+    }, {new: true})
+    .then(project => {
+        if(!project) {
+            return res.status(404).send({
+                message: "Project not found with id " + req.params.projectId
+            });
+        }
+        res.send(project);
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Project not found with id " + req.params.projectId
+            });                
+        }
+        return res.status(500).send({
+            message: "Error updating project with id " + req.params.projectId
+        });
+    });
 
 };
 

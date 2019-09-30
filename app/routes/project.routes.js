@@ -27,6 +27,6 @@ module.exports = (app) => {
     app.post('/projects', upload.single('image'), projects.create);
     app.get('/projects', projects.findAll);
     app.get('/projects/:projectId', projects.findOne);
-    app.put('/projects/:projectId', projects.update);
+    app.put('/projects/:projectId', upload.single('image'), projects.update);
     app.delete('/projects/:projectId', projects.delete);
 }
