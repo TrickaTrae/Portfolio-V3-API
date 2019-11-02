@@ -17,7 +17,8 @@ exports.create = (req, res) => {
         site_link: request.site_link,
         code_link: request.code_link,
         image: req.file.path,
-        filters: request.filters
+        filters: request.filters,
+        disabled: true
     });
 
     project.save().then(data => {
@@ -74,7 +75,8 @@ exports.update = (req, res) => {
         site_link: request.site_link,
         code_link: request.code_link,
         image: image,
-        filters: request.filters
+        filters: request.filters,
+        disabled: request.disabled
     }, {new: true})
     .then(project => {
         if(!project) {

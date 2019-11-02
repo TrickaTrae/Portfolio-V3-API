@@ -7,7 +7,8 @@ const ProjectSchema = mongoose.Schema({
     site_link: String,
     code_link: String,
     image: String,
-    filters: String
+    filters: String,
+    disabled: Boolean
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);
