@@ -5,12 +5,25 @@ module.exports = (app) => {
 
     // project image handling
     const multer = require('multer');
-    const storage = multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, './uploads/');
+    const multerS3 = require('multer-s3');
+    const AWS = require('aws-sdk');
+
+    AWS.config.update({
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        region: 'us-west-1'
+    })
+
+    const s3 = new AWS.S3();
+    const storage = multerS3({
+        s3: s3,
+        bucket: 'tw-portfolio-project-images',
+        acl: 'public-read',
+        metadata: (req, file, cb) => {
+            cb(null, {fieldName: file.originalname});
         },
-        filename: (req, file, cb) => {
-            cb(null, file.originalname);
+        key: (req, file, cb) => {
+            cb(null, Date.now().toString())
         }
     })
     const fileFilter = (req, file, cb) => {

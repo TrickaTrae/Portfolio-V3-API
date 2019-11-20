@@ -7,6 +7,7 @@ const ProjectSchema = mongoose.Schema({
     site_link: String,
     code_link: String,
     image: String,
+    imageS3Key: String,
     filters: String,
     disabled: Boolean
 });

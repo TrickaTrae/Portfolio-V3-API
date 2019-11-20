@@ -13,7 +13,8 @@ app.disable('x-powered-by');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.url, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 }).then(() => {
     console.log("Successfully connected to the database: ", dbConfig.url);    
 }).catch(err => {
