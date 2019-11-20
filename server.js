@@ -7,7 +7,7 @@ let cors = require('cors');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(cors({}));
+app.use(cors({ origin: 'https://www.traegerwinn.com'}));
 app.use('/uploads', express.static('uploads'));
 app.disable('x-powered-by');
 
