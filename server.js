@@ -7,7 +7,7 @@ let cors = require('cors');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(cors({ origin: 'https://www.traegerwinn.com/' }));
+app.use(cors({}));
 app.use('/uploads', express.static('uploads'));
 
 mongoose.Promise = global.Promise;
