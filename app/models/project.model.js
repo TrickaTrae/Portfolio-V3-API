@@ -10,6 +10,8 @@ const ProjectSchema = mongoose.Schema({
     imageS3Key: String,
     filters: String,
     disabled: Boolean
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);
