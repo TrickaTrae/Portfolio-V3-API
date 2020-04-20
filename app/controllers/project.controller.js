@@ -41,8 +41,7 @@ exports.create = (req, res) => {
 
 // retrieve and return all projects from the db
 exports.findAll = (req, res) => {
-    Project.find()
-    .then(projects => {
+    Project.find().then(projects => {
         res.send(projects);
     }).catch(err => {
         res.status(500).send({
