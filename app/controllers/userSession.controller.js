@@ -55,21 +55,25 @@ exports.findOne = (req, res) => {
     UserSession.findOneAndUpdate({_id: req.params.userSessionId, isDeleted: false}, {$set: {isDeleted: true}}, {new: true}, (error, result) => {
         if(error) {
             return res.status(400).send({
+                success: false,
                 message: "Error: " + error
             })
         } else if (result) {
             if(result.isDeleted === true){
                 return res.status(200).send({
-                    message: "User has successfully been signed out!"
+                    success: true,
+                    message: "Successfully signed out!"
                 })
             } else {
                 res.status(500).send({
-                    message: "Some error occurred while signing the user out"
+                    success: false,
+                    message: "Some error occurred while signing out."
                 });
             }
         } else if(!result) {
             res.status(500).send({
-                message: "Some error occurred while signing the user out"
+                success: false,
+                message: "Some error occurred while signing out."
             });
         }
     })
@@ -80,6 +84,7 @@ exports.verifyUserSession = (req, res) => {
     UserSession.findOne({_id: req.params.userSessionId, isDeleted: false}, (error, result) => {
         if(error){
             return res.status(400).send({
+                success: false,
                 message: "Error: " + error
             })
         } else if(!error && !result){
